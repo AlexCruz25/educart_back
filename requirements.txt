@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlmodel
+pymysql
+passlib[bcrypt]
+pyjwt
+python-jose[cryptography]
+python-multipart
+bcrypt>=4.0.1
+pydantic-settings
