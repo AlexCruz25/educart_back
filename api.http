@@ -3,8 +3,8 @@ POST http://localhost:8000/auth/register
 Content-Type: application/json
 
 {
-  "username": "newuser",
-  "email": "newuser@example.com",
+  "username": "alex",
+  "email": "new@example.com",
   "password": "changeme"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-  "username": "newuser",
+  "username": "alex",
   "password": "changeme"
 }
 
@@ -28,7 +28,7 @@ Accept: application/json
 ### Create a new product (requires admin token)
 POST http://localhost:8000/products/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuZXd1c2VyIiwiZXhwIjoxNzYyODk4MTYyfQ._ei4EfjvnavrBAoGMacCKIxUM7uJUTEw76xGed_i8j0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGV4IiwiZXhwIjoxNzYyOTAzNTc3fQ.dmxoPm6tl3_3GfWsMbCcStF_bqzQQUCLH7Y36D1KFvU
 
 {
   "name": "Sample product",
