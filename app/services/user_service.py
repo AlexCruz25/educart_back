@@ -27,10 +27,11 @@ class UserService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="El nombre de usuario ya está registrado."
             )
-        print("PASSWORD VALUE:", repr(user_data.password), type(user_data.password))
+       
 
         hashed=hash_password(user_data.password)
-        new_user=User(username=user_data.username, password_hash=hashed)
+        role = user_data.role or "user"
+        new_user=User(username=user_data.username, password_hash=hashed, role=role)
         return self.repo.create_user(new_user)
     
     def authenticate_user(self, credentials:UserLogin)->Optional[UserRead]:
