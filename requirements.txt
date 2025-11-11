@@ -2,10 +2,10 @@ fastapi
 uvicorn[standard]
 sqlmodel
 pymysql
-passlib[bcrypt]
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
 pyjwt
-python-jose[cryptography]
+python-jose[cryptography]==3.3.0
 python-multipart
-bcrypt>=4.0.1
 pydantic-settings
 mysql-connector-python

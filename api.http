@@ -1,0 +1,54 @@
+### Register a new user
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "changeme"
+}
+
+### Login with an existing user
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "changeme"
+}
+
+### List all products
+GET http://localhost:8000/products/
+Accept: application/json
+
+### Get a single product by ID
+GET http://localhost:8000/products/1
+Accept: application/json
+
+### Create a new product (requires admin token)
+POST http://localhost:8000/products/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuZXd1c2VyIiwiZXhwIjoxNzYyODk4MTYyfQ._ei4EfjvnavrBAoGMacCKIxUM7uJUTEw76xGed_i8j0
+
+{
+  "name": "Sample product",
+  "description": "My product description",
+  "price": 42.5,
+  "stock": 10
+}
+
+### Update an existing product (requires admin token)
+PUT http://localhost:8000/products/1
+Content-Type: application/json
+Authorization: Bearer {token}
+
+{
+  "name": "Updated product",
+  "description": "Updated description",
+  "price": 45.0,
+  "stock": 12
+}
+
+### Delete a product (requires admin token)
+DELETE http://localhost:8000/products/1
+Authorization: Bearer {token}
