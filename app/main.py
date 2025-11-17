@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 
 from app.core.database import init_db
-from app.routers.product_router import router as product_router
+
 from app.routers import auth_router
 from app.routers import cart_router
+from app.routers.product_router import router as product_router
 
-app=FastAPI(title="EduCart")
+app = FastAPI(title="EduCart")
+
 
 @app.on_event("startup")
 def on_startup():

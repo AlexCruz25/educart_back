@@ -6,11 +6,15 @@ class UserRole(str, Enum):
     ADMIN = "admin"
     USER = "user"
 
+
 class User(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)  # 👈 PRIMARY KEY OBLIGATORIO
     username: str = Field(index=True)
+    email: str = Field(index=True, unique=True)
     password_hash: str
     role: UserRole = Field(default=UserRole.USER)
+
+    
     
 
     

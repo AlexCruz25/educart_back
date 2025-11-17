@@ -29,11 +29,16 @@ class UserService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="El nombre de usuario ya está registrado."
             )
-       
+        existing_email = self.repo.get_by_email(user_data.email)
+        if existing_email:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="El correo electrónico ya está registrado."
+            )
 
         hashed=hash_password(user_data.password)
         role = user_data.role or UserRole.USER
-        new_user=User(username=user_data.username, password_hash=hashed, role=role)
+        new_user=User(username=user_data.username, email=user_data.email, password_hash=hashed, role=role)
         return self.repo.create_user(new_user)
     
     def authenticate_user(self, credentials:UserLogin)->Optional[UserRead]:
