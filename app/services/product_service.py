@@ -24,8 +24,20 @@ class ProductService:
         product = Product(**product_data.dict())
         return self.repo.create(product)
         
-    def get_all_products(self) -> list[Product]:
-        products = self.repo.get_all()
+    def get_all_products(
+        self,
+        *,
+        category: str | None = None,
+        min_price: float | None = None,
+        max_price: float | None = None,
+        min_rating: float | None = None,
+    ) -> list[Product]:
+        products = self.repo.get_filtered(
+            category=category,
+            min_price=min_price,
+            max_price=max_price,
+            min_rating=min_rating,
+        )
         if not products:
             # No es un error crítico, pero informativo
             return []

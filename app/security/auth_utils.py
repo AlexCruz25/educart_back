@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from sqlmodel import Session
 from app.core.config import settings
 from app.core.database import get_session
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.repositories.user_repository import UserRepository
 
 
@@ -50,9 +50,13 @@ def get_current_user(
         raise credentials_exception
     return user
 
+def require_authenticated_user(current_user: User = Depends(get_current_user)) -> User:
+    return current_user
+
+
 def require_admin(current_user: User = Depends(get_current_user)) -> User:
     """Verifica que el usuario tenga rol de administrador."""
-    if current_user.role != "admin":
+    if current_user.role != UserRole.ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="se requiere rol de administrador.",

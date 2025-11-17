@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from app.core.database import init_db
 from app.routers.product_router import router as product_router
 from app.routers import auth_router
+from app.routers import cart_router
 
 app=FastAPI(title="EduCart")
 
@@ -12,6 +13,7 @@ def on_startup():
 
 app.include_router(product_router)
 app.include_router(auth_router.router)
+app.include_router(cart_router.router)
 
 @app.get("/")
 def root():

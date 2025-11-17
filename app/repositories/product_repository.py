@@ -19,8 +19,27 @@ class ProductRepository:
     def get_all(self)->List[Product]:
         return self.session.exec(select(Product)).all()
     
+    def get_filtered(
+        self,
+        *,
+        category: str | None = None,
+        min_price: float | None = None,
+        max_price: float | None = None,
+        min_rating: float | None = None,
+    ) -> List[Product]:
+        statement = select(Product)
+        if category:
+            statement = statement.where(Product.category.ilike(f"%{category}%"))
+        if min_price is not None:
+            statement = statement.where(Product.price >= min_price)
+        if max_price is not None:
+            statement = statement.where(Product.price <= max_price)
+        if min_rating is not None:
+            statement = statement.where(Product.rating >= min_rating)
+        return self.session.exec(statement).all()
+    
     def get_by_id(self, product_id:int)->Optional[Product]:
-        return self.session.get_by_id(Product, product_id)
+        return self.session.get(Product, product_id)
     
     
     def update(self, product_id:int, product_data:Product)->Optional[Product]:

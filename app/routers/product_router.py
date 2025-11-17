@@ -15,9 +15,20 @@ from app.security.auth_utils import require_admin
 router=APIRouter(prefix="/products", tags=["Products"])
 
 @router.get("/", response_model=List[ProductRead])
-def list_products(session: Session = Depends(get_session)):
+def list_products(
+    category: str | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None,
+    min_rating: float | None = None,
+    session: Session = Depends(get_session),
+):
     service = ProductService(session)
-    return service.get_all_products()
+    return service.get_all_products(
+        category=category,
+        min_price=min_price,
+        max_price=max_price,
+        min_rating=min_rating,
+    )
 
 @router.get("/{product_id}", response_model=ProductRead)
 def get_product(product_id: int, session: Session = Depends(get_session)):
@@ -46,7 +57,11 @@ def update_product(
     return service.update_product(product_id, product)
 
 @router.delete("/{product_id}")
-def delete_product(product_id: int, session: Session = Depends(get_session)):
+def delete_product(
+    product_id: int,
+    session: Session = Depends(get_session),
+    current_user=Depends(require_admin),
+):
     service = ProductService(session)
     return service.delete_product(product_id)
 

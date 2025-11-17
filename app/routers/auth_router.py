@@ -16,3 +16,9 @@ def login_user(credentials: UserLogin, session: Session = Depends(get_session)):
     service = UserService(session)
     token = service.authenticate_user(credentials)
     return {"access_token": token, "token_type": "bearer"}
+
+@router.post("/demo-login")
+def demo_login(session: Session = Depends(get_session)):
+    service = UserService(session)
+    token = service.demo_login()
+    return {"access_token": token, "token_type": "bearer", "mode": "demo"}

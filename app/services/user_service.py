@@ -3,6 +3,8 @@ from typing import Optional
 
 from fastapi import HTTPException, status
 from sqlmodel import Session
+from app.models.user import User, UserRole
+
 # from app.domain.interfaces.user_repository_port import IUserRepository
 from app.models.user import User
 from app.schemas.user import UserCreate, UserLogin
@@ -30,7 +32,7 @@ class UserService:
        
 
         hashed=hash_password(user_data.password)
-        role = user_data.role or "user"
+        role = user_data.role or UserRole.USER
         new_user=User(username=user_data.username, password_hash=hashed, role=role)
         return self.repo.create_user(new_user)
     
@@ -42,7 +44,17 @@ class UserService:
                 detail="Credenciales inválidas."
             )
         token=create_access_token({"sub":user.username})
-        return token 
+        return token
+
+    def demo_login(self) -> str:
+        demo_username = "demo_user"
+        user = self.repo.get_by_username(demo_username)
+        if not user:
+            demo_password = hash_password("demo")
+            user = User(username=demo_username, password_hash=demo_password, role=UserRole.USER)
+            self.repo.create_user(user)
+        return create_access_token({"sub": user.username})
+    
     
     def get_all_users(self) -> list[UserRead]:
         users = self.repo.get_all()

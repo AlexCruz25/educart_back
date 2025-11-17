@@ -1,11 +1,13 @@
+from sqlmodel import Field, SQLModel
 
-from sqlmodel import SQLModel
+from app.models.user import UserRole
+
 
 
 class UserCreate(SQLModel):
     username: str
     password: str
-    role: str = "user"
+    role: UserRole | None = Field(default=UserRole.USER)
     
     
     
@@ -13,9 +15,9 @@ class UserCreate(SQLModel):
 class UserRead(SQLModel):
     id: int
     username: str
-    role: str
+    role: UserRole
     
 class UserLogin(SQLModel):
-    username:str
-    password:str
+    username: str
+    password: str
     
