@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import Optional
 
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import Integer
 from sqlmodel import Field, SQLModel
 
 class CartStatus(str, Enum):
@@ -16,7 +18,11 @@ class Cart(SQLModel, table=True):
 
 class CartItem(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    cart_id: int = Field(foreign_key="cart.id")
-    product_id: int = Field(foreign_key="product.id")
+    cart_id: int = Field(
+        sa_column=Column(Integer, ForeignKey("cart.id", ondelete="CASCADE")),
+    )
+    product_id: int = Field(
+        sa_column=Column(Integer, ForeignKey("product.id", ondelete="CASCADE")),
+    )
     quantity: int = Field(default=1)
     unit_price: float
