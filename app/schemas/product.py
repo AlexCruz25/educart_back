@@ -2,12 +2,13 @@ from typing import Optional
 from sqlmodel import SQLModel
 
 class ProductRead(SQLModel):
-    name:str
-    price:float
-    category:str
-    description:str
-    image_url:str
-    rating:float
+    id: int
+    name: str
+    price: float
+    category: str
+    description: str
+    image_url: str
+    rating: float
     
 class ProductCreate(SQLModel):
     name:str
