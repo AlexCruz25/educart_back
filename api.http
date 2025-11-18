@@ -3,9 +3,9 @@ POST http://localhost:8000/auth/register
 Content-Type: application/json
 
 {
-  "username": "alex123",
-  "email": "new@example.com",
-  "password": "changeme",
+  "username": "admin",
+  "email": "new1@example.com",
+  "password": "12345",
   "role": "admin"
 }
 
@@ -14,8 +14,8 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-  "username": "alex123",
-  "password": "changeme"
+  "username": "admin",
+  "password": "12345"
 }
 
 ### List all products

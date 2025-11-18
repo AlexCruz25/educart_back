@@ -42,12 +42,21 @@ class ProductRepository:
         return self.session.get(Product, product_id)
     
     
-    def update(self, product_id:int, product_data:Product)->Optional[Product]:
+    def update(
+        self,
+        product_id: int,
+        product_data: Product | dict,
+    ) -> Optional[Product]:
         db_product=self.session.get(Product, product_id)
         if not db_product:
             return None
         
-        for key, value in product_data.dict(exclude_unset=True).items():
+        if hasattr(product_data, "dict"):
+            update_data = product_data.dict(exclude_unset=True)
+        else:
+            update_data = product_data
+
+        for key, value in update_data.items():
             setattr(db_product,key, value)
             
         self.session.add(db_product)
