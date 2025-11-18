@@ -1,8 +1,5 @@
-
-
 from typing import Optional
 from sqlmodel import SQLModel
-
 
 class ProductRead(SQLModel):
     name:str

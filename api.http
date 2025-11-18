@@ -3,9 +3,10 @@ POST http://localhost:8000/auth/register
 Content-Type: application/json
 
 {
-  "username": "newuser",
-  "email": "newuser@example.com",
-  "password": "changeme"
+  "username": "alex123",
+  "email": "new@example.com",
+  "password": "changeme",
+  "role": "admin"
 }
 
 ### Login with an existing user
@@ -13,7 +14,7 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-  "username": "newuser",
+  "username": "alex123",
   "password": "changeme"
 }
 
@@ -28,13 +29,16 @@ Accept: application/json
 ### Create a new product (requires admin token)
 POST http://localhost:8000/products/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuZXd1c2VyIiwiZXhwIjoxNzYzNDAzNjkzfQ.H9Nwi9zs13e0iPlEgwoL91OcZhUfZTo9Xd7GVFF2-4o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGV4MTIzIiwiZXhwIjoxNzYzNDc2NDAyfQ.g9i1PhHCUjScBBDRthOa4iYoMmdtWKprRR0hCzb0st4
 
 {
   "name": "Sample product",
   "description": "My product description",
   "price": 42.5,
-  "stock": 10
+  "stock": 10,
+  "category": "Books",             
+  "image_url": "some_url.jpg",    
+  "rating": 4.5
 }
 
 ### Update an existing product (requires admin token)
@@ -52,3 +56,13 @@ Authorization: Bearer {token}
 ### Delete a product (requires admin token)
 DELETE http://localhost:8000/products/1
 Authorization: Bearer {token}
+
+### Add an item to the cart
+POST http://localhost:8000/cart/items
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGV4MTIzIiwiZXhwIjoxNzYzNDkwOTUyfQ.pjeA9klZc6Q5CueR06QIUW-eqhz0vEHy_2CMhn9BcEY
+
+{
+  "product_id": 1,
+  "quantity": 2
+}
