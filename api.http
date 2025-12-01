@@ -29,7 +29,7 @@ Accept: application/json
 ### Create a new product (requires admin token)
 POST http://localhost:8000/products/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGV4MTIzIiwiZXhwIjoxNzYzNDc2NDAyfQ.g9i1PhHCUjScBBDRthOa4iYoMmdtWKprRR0hCzb0st4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc2NDQ1NDU1MX0.yDhCZpwjXilvp_eLN7_9qMRa4dom1EBOXV251UXVOaM
 
 {
   "name": "Sample product",

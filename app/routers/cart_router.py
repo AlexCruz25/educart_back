@@ -3,6 +3,7 @@ from sqlmodel import Session
 
 from app.core.database import get_session
 from app.schemas.cart import CartItemCreate, CartItemUpdate, CartSummary
+from app.schemas.order import CheckoutResponse
 from app.security.auth_utils import require_authenticated_user
 from app.services.cart_service import CartService
 from app.models.user import User
@@ -50,7 +51,7 @@ def get_cart_summary(
     return service.get_summary(current_user)
 
 
-@router.post("/checkout")
+@router.post("/checkout", response_model=CheckoutResponse)
 def checkout(
     session: Session = Depends(get_session),
     current_user: User = Depends(require_authenticated_user),
