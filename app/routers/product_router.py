@@ -10,7 +10,7 @@ from app.security.auth_utils import require_admin
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
-@router.get("/", response_model=List[ProductRead])
+@router.get("", response_model=List[ProductRead])
 def list_products(
     category: str | None = None,
     min_price: float | None = None,
