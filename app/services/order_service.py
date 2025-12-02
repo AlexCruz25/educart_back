@@ -86,38 +86,32 @@ class OrderService:
         taxes = round(subtotal * self.TAX_RATE, 2)
         total = round(subtotal + taxes, 2)
 
-        # ----------------------------
-        #  ELIMINADO: with self.session.begin()
-        #  USAMOS COMMIT MANUAL
-        # ----------------------------
+        # Usamos una transacción para garantizar atomicidad: si alguna operación
+        # falla (sin stock, problema al persistir ítems, etc.) se revierte todo.
+        with self.session.begin():
+            order = Order(
+                user_id=user.id,
+                total=total,
+                taxes=taxes,
+                status=OrderStatus.CONFIRMED,
+            )
+            self.order_repo.create_order(order)
 
-        # Crear orden
-        order = Order(
-            user_id=user.id,
-            total=total,
-            taxes=taxes,
-            status=OrderStatus.CONFIRMED,
-        )
-        self.order_repo.create_order(order)
-
-        # Agregar ítems de orden y actualizar stock
-        for order_item in order_items:
-            product = product_map[order_item.product_id]
-            product.stock_actual -= order_item.quantity
+            for order_item in order_items:
+                product = product_map[order_item.product_id]
+                product.stock_actual -= order_item.quantity
 
             self.session.add(product)
             order_item.order_id = order.id
             self.order_repo.add_item(order_item)
 
-        # Cerrar carrito
+
         cart.status = CartStatus.CHECKED_OUT
         self.session.add(cart)
 
         for cart_item in items:
             self.session.delete(cart_item)
 
-        # Guardar cambios
-        self.session.commit()
 
         # Refrescar orden
         refreshed_items = self.order_repo.get_items(order.id)

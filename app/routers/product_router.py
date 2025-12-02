@@ -62,3 +62,11 @@ def delete_product(
 ):
     service = ProductService(session)
     return service.delete_product(product_id)
+
+@router.get("/alerts", response_model=List[ProductRead])
+def get_stock_alerts(
+    session: Session = Depends(get_session),
+    current_user=Depends(require_admin),
+):
+    service = ProductService(session)
+    return service.get_alert_products()

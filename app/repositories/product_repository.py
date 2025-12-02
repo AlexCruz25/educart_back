@@ -54,7 +54,11 @@ class ProductRepository:
         elif sort_by == "rating_desc":
             statement = statement.order_by(desc(Product.rating))
         return self.session.exec(statement).all()
-
+    def get_alert_products(self) -> List[Product]:
+        statement = select(Product).where(
+            (Product.stock_actual == 0) | (Product.stock_actual <= Product.stock_minimo)
+        )
+        return self.session.exec(statement).all()
     def get_by_id(self, product_id: int) -> Optional[Product]:
         return self.session.get(Product, product_id)
     

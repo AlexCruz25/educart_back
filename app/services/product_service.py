@@ -57,6 +57,8 @@ class ProductService:
             )
         return product
     
+    def get_alert_products(self) -> list[Product]:
+        return self.repo.get_alert_products()
     
     
     def update_product(self, product_id: int, product_data: ProductUpdate) -> Product:
