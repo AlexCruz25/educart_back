@@ -14,6 +14,9 @@ class UserRead(SQLModel):
     username: str
     email: str
     role: UserRole
+    
+    class Config:
+        orm_mode = True
 
 
 class UserLogin(SQLModel):

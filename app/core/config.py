@@ -1,4 +1,4 @@
-
+from typing import List
 
 from pydantic_settings import BaseSettings
 
@@ -9,5 +9,8 @@ class Settings(BaseSettings):
 
     SECRET_KEY:str="super_secret_key"
     ALGORITHM:str="HS256"
+
+
+    BACKEND_CORS_ORIGINS: List[str] = ["*"]
     
 settings=Settings()

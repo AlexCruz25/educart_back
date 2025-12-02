@@ -6,7 +6,7 @@ from sqlmodel import Session
 from app.models.user import User, UserRole
 
 # from app.domain.interfaces.user_repository_port import IUserRepository
-from app.models.user import User
+
 from app.schemas.user import UserCreate, UserLogin
 from app.security.auth_utils import create_access_token, hash_password, verify_password
 
@@ -22,7 +22,7 @@ class UserService:
     def __init__(self, session:Session):
         self.repo=UserRepository(session)
         
-    def register_user(self, user_data:UserCreate)->User:
+    def register_user(self, user_data:UserCreate)->UserRead:
         existing=self.repo.get_by_username(user_data.username)
         if existing:
             raise HTTPException(
@@ -39,7 +39,8 @@ class UserService:
         hashed=hash_password(user_data.password)
         role = user_data.role or UserRole.USER
         new_user=User(username=user_data.username, email=user_data.email, password_hash=hashed, role=role)
-        return self.repo.create_user(new_user)
+        created_user = self.repo.create_user(new_user)
+        return UserRead.from_orm(created_user)
     
     def authenticate_user(self, credentials:UserLogin)->Optional[UserRead]:
         user=self.repo.get_by_username(credentials.username)
