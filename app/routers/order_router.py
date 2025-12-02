@@ -10,7 +10,7 @@ from app.models.user import User
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
 
-@router.post("/", response_model=CheckoutResponse)
+@router.post("", response_model=CheckoutResponse)
 def create_order(
     session: Session = Depends(get_session),
     current_user: User = Depends(require_authenticated_user),
